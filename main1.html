@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ForeverTunes - Custom Music Creation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .page-section { display: none; }
+        .page-section.active { display: block; }
+        .package-card { transition: all 0.3s ease; }
+        .package-card:hover { transform: translateY(-5px); }
+        .lang-btn { transition: all 0.2s ease; }
+        .selected-card {
+            border-color: #3b82f6;
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3), 0 4px 6px -2px rgba(59, 130, 246, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2 cursor-pointer" onclick="showSection('home')">
+                <img src="logo.png" alt="Logo" class="h-8 w-8 object-contain">
+                <span class="text-xl font-bold">ForeverTunes</span>
+            </div>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#" class="nav-link text-gray-600 hover:text-black transition-colors" data-section="home">Home</a>
+                <a href="#" class="nav-link text-gray-600 hover:text-black transition-colors" data-section="how-it-works">How It Works</a>
+                <a href="#" class="nav-link text-gray-600 hover:text-black transition-colors" data-section="contact">Contact</a>
+                <a href="https://www.instagram.com/forevertunes.in?igsh=MWRscHhkYmhncGNqeg==" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-black transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919C8.416 2.175 8.796 2.163 12 2.163zm0 1.441c-3.141 0-3.504.012-4.726.068-2.673.123-3.974 1.441-4.098 4.098-.056 1.222-.067 1.583-.067 4.726s.011 3.504.067 4.726c.124 2.657 1.425 3.974 4.098 4.098 1.222.056 1.584.068 4.726.068s3.504-.012 4.726-.068c2.673-.124 3.974-1.441 4.098-4.098.056-1.222.068-1.584.068-4.726s-.012-3.504-.068-4.726c-.124-2.657-1.425-3.974-4.098-4.098C15.504 3.615 15.141 3.604 12 3.604zm0 4.232c-2.404 0-4.35 1.946-4.35 4.35s1.946 4.35 4.35 4.35 4.35-1.946 4.35-4.35-1.946-4.35-4.35-4.35zm0 7.26c-1.605 0-2.91-1.305-2.91-2.91s1.305-2.91 2.91-2.91 2.91 1.305 2.91 2.91-1.305 2.91-2.91 2.91zm4.45-7.81c-.552 0-1 .448-1 1s.448 1 1 1 1-.448 1-1-.448-1-1-1z"/></svg>
+                </a>
+            </nav>
+            <div class="md:hidden">
+                 <button id="mobile-menu-button" class="text-gray-600 hover:text-black focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                 </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-md">
+            <a href="#" class="block py-3 px-6 text-sm hover:bg-gray-50 nav-link" data-section="home">Home</a>
+            <a href="#" class="block py-3 px-6 text-sm hover:bg-gray-50 nav-link" data-section="how-it-works">How It Works</a>
+            <a href="#" class="block py-3 px-6 text-sm hover:bg-gray-50 nav-link" data-section="contact">Contact</a>
+            <a href="https://www.instagram.com/forevertunes.in?igsh=MWRscHhkYmhncGNqeg==" target="_blank" rel="noopener noreferrer" class="block py-3 px-6 text-sm hover:bg-gray-50">Instagram</a>
+        </div>
+    </header>
+
+    <section id="home" class="page-section active">
+        <section class="text-center py-24 md:py-32 px-6">
+            <div class="container mx-auto">
+                <h2 class="text-4xl md:text-6xl font-bold text-black">ForeverTunes</h2>
+                <h1 class="text-4xl md:text-6xl font-bold text-black mt-2">Your Personal Song, Made Easy.</h1>
+                <h2 class="text-lg md:text-xl text-gray-500 mt-4 max-w-3xl mx-auto">Describe your ideal track, and our artists will bring it to life. Get a unique, studio-quality song created just for you.</h2>
+            </div>
+        </section>
+
+        <section id="pricing" class="bg-gray-50 py-20 px-6">
+            <div class="container mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold">Song Packages</h2>
+                <p class="text-lg text-gray-600 mt-2">Simple. Clear. Value.</p>
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <div class="bg-white rounded-2xl p-8 border border-gray-200 flex flex-col package-card">
+                        <h3 class="text-xl font-semibold">Basic</h3>
+                        <p class="text-4xl font-bold mt-4">₹599</p>
+                        <ul class="text-left space-y-4 mt-8 text-gray-600 flex-grow">
+                            <li class="flex items-center space-x-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                                <span>All basic features</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                                <span>MP3 download</span>
+                            </li>
+                             <li class="flex items-center space-x-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                                <span>Standard delivery</span>
+                            </li>
+                        </ul>
+                        <button class="w-full mt-8 bg-gray-200 text-gray-800 font-semibold py-3 rounded-lg hover:bg-gray-300 transition-colors" onclick="selectPackage(this, 'Basic')">Choose Basic</button>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-8 border border-gray-200 flex flex-col package-card">
+                        <h3 class="text-xl font-semibold">Premium</h3>
+                        <p class="text-4xl font-bold mt-4">₹999</p>
+                        <ul class="text-left space-y-4 mt-8 text-gray-600 flex-grow">
+                             <li class="flex items-center space-x-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                                <span>All premium features</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                                <span>Priority support</span>
+                            </li>
+                             <li class="flex items-center space-x-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                                <span>Editable Extra mix revisions</span>
+                            </li>
+                        </ul>
+                        <button class="w-full mt-8 bg-gray-200 text-gray-800 font-semibold py-3 rounded-lg hover:bg-gray-300 transition-colors" onclick="selectPackage(this, 'Premium')">Choose Premium</button>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-8 border border-gray-200 flex flex-col package-card">
+                        <h3 class="text-xl font-semibold">Exclusive</h3>
+                        <p class="text-4xl font-bold mt-4">₹1499</p>
+                        <ul class="text-left space-y-4 mt-8 text-gray-600 flex-grow">
+                             <li class="flex items-center space-x-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                                <span>All Exclusive features</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                                <span>WAV & stems</span>
+                            </li>
+                             <li class="flex items-center space-x-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                                <span>Fastedd delivery</span>
+                            </li>
+                        </ul>
+                        <button class="w-full mt-8 bg-gray-200 text-gray-800 font-semibold py-3 rounded-lg hover:bg-gray-300 transition-colors" onclick="selectPackage(this, 'Exclusive')">Choose Exclusive</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white py-20 px-6">
+            <div class="container mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold">What Users Say</h2>
+                <p class="text-lg text-gray-600 mt-2">Real songs. Real impact.</p>
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <div class="bg-gray-100 rounded-lg p-8 text-left">
+                        <p class="text-gray-700">"ForeverTunes turned my ideas into music better than I imagined."</p>
+                        <p class="font-semibold mt-4">Alex R.</p>
+                        <p class="text-sm text-gray-500">USA</p>
+                    </div>
+                    <div class="bg-gray-100 rounded-lg p-8 text-left">
+                        <p class="text-gray-700">"The process was simple and professional. Love my custom song."</p>
+                        <p class="font-semibold mt-4">Mia T.</p>
+                         <p class="text-sm text-gray-500">Sweden</p>
+                    </div>
+                    <div class="bg-gray-100 rounded-lg p-8 text-left">
+                        <p class="text-gray-700">"Superb service and fantastic value. Totally recommend."</p>
+                        <p class="font-semibold mt-4">Jordan K.</p>
+                        <p class="text-sm text-gray-500">United Kingdom</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <section id="how-it-works" class="page-section">
+        <main class="container mx-auto px-6 py-16 md:py-24 text-center">
+            <section>
+                <h1 class="text-4xl md:text-5xl font-bold text-black">How ForeverTunes Works.</h1>
+                <p class="text-lg md:text-xl text-gray-600 mt-4">Create custom songs in 4 steps.</p>
+            </section>
+            <section class="mt-16">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                    <!-- Select Package box -->
+                    <div class="bg-gray-100 rounded-2xl p-8 flex flex-col items-center justify-center aspect-square cursor-pointer" onclick="showSection('select-package')">
+                        <img src="l1.jpeg" alt="Logo" class="w-16 h-16 object-contain">
+                        <h3 class="font-semibold mt-4 text-lg">Select Package</h3>
+                    </div>
+
+                    <!-- Choose Language box -->
+                    <div class="bg-gray-100 rounded-2xl p-8 flex flex-col items-center justify-center aspect-square">
+                        <img src="l5.jpg" alt="Logo" class="w-16 h-16 object-contain">
+                        <h3 class="font-semibold mt-4 text-lg">Choose Language</h3>
+                    </div>
+
+                    <!-- Describe Your Song box -->
+                    <div class="bg-gray-100 rounded-2xl p-8 flex flex-col items-center justify-center aspect-square">
+                        <img src="l2.jpeg" alt="Logo" class="w-16 h-16 object-contain">
+                        <h3 class="font-semibold mt-4 text-lg">Describe Your Song</h3>
+                    </div>
+                </div>
+                <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-lg mx-auto">
+                    <!-- Delivered box -->
+                    <div class="bg-gray-100 rounded-2xl p-8 flex flex-col items-center justify-center text-center">
+                        <img src="l3.jpeg" alt="Logo" class="w-16 h-16 object-contain">
+                        <h3 class="font-semibold mt-4 text-lg">Step 4. Delivered.</h3>
+                        <p class="text-gray-600 text-sm mt-2">Preview your personalized song online.</p>
+                    </div>
+
+                    <!-- Demo Preview box -->
+                    <div class="bg-gray-100 rounded-2xl p-8 flex flex-col items-center justify-center text-center">
+                        <img src="l4.jpeg" alt="Logo" class="w-16 h-16 object-contain">
+                        <h3 class="font-semibold mt-4 text-lg">Demo Preview.</h3>
+                        <p class="text-gray-600 text-sm mt-2">Listen to a sample ForeverTunes track.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mt-24">
+                <h2 class="text-3xl md:text-4xl font-bold">Start Your Song Now.</h2>
+                <p class="text-lg text-gray-600 mt-2">Create a custom song today.</p>
+                <button onclick="showSection('select-package')" class="mt-8 inline-block bg-black text-white font-semibold py-3 px-8 rounded-lg hover:bg-gray-800 transition-colors">
+                    Get Started
+                </button>
+            </section>
+        </main>
+    </section>
+
+    <section id="select-package" class="page-section">
+        <div class="bg-white min-h-screen py-12">
+            <div class="container mx-auto px-6">
+                <header class="flex justify-between items-center mb-8">
+                    <div class="flex items-center space-x-2 cursor-pointer" onclick="showSection('home')">
+                        <img src="logo.png" alt="Logo" class="h-8 w-8 object-contain">
+                        <span class="text-xl font-bold">ForeverTunes</span>
+                    </div>
+                    <a href="#" class="text-gray-600 font-medium text-sm hover:text-gray-900 transition-colors duration-200" onclick="showSection('how-it-works')">
+                        &larr; Back
+                    </a>
+                </header>
+
+                <main class="max-w-lg mx-auto">
+                    <div class="text-center">
+                        <h2 class="text-3xl font-bold text-gray-900">Customize Your ForeverTunes Experience</h2>
+                        <p class="text-gray-500 mt-2">Just a few quick details before you start.</p>
+                    </div>
+
+                    <div class="mt-10">
+                        <label class="font-semibold text-gray-800">Choose your preferred language</label>
+                        <div class="grid grid-cols-3 gap-3 mt-3">
+                            <button class="lang-btn w-full text-center py-2.5 rounded-lg border border-gray-300 bg-gray-50 hover:bg-gray-100 font-medium text-gray-700">English</button>
+                            <button class="lang-btn w-full text-center py-2.5 rounded-lg border border-gray-300 bg-gray-50 hover:bg-gray-100 font-medium text-gray-700">Hindi</button>
+                            <button class="lang-btn w-full text-center py-2.5 rounded-lg border border-gray-300 bg-gray-50 hover:bg-gray-100 font-medium text-gray-700">Marathi</button>
+                            <button class="lang-btn w-full text-center py-2.5 rounded-lg border border-gray-300 bg-gray-50 hover:bg-gray-100 font-medium text-gray-700">Telugu</button>
+                            <button class="lang-btn w-full text-center py-2.5 rounded-lg border border-gray-300 bg-gray-50 hover:bg-gray-100 font-medium text-gray-700">Tamil</button>
+                            <button class="lang-btn w-full text-center py-2.5 rounded-lg border border-gray-300 bg-gray-50 hover:bg-gray-100 font-medium text-gray-700">Bengali</button>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">You can change this anytime later.</p>
+                    </div>
+
+                    <div class="mt-8">
+                        <label for="song-description" class="block text-sm font-semibold text-gray-800">Describe your song</label>
+                        <textarea id="song-description" rows="4" class="mt-3 w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-black focus:border-black transition p-3 text-sm" placeholder="e.g., An upbeat pop song about summer nights with a catchy guitar riff..."></textarea>
+                    </div>
+
+                    <div class="mt-8">
+                        <label class="font-semibold text-gray-800">Choose Your Plan</label>
+                        <div class="mt-3 flex justify-center">
+                            <div class="w-full border border-gray-200 bg-gray-50 rounded-xl p-6 text-center">
+                                <p class="font-semibold text-gray-800">Premium Monthly</p>
+                                <p class="text-4xl font-bold text-gray-900 mt-2">₹999</p>
+                                <ul class="text-left space-y-2 mt-4 text-gray-600">
+                                    <li class="flex items-center space-x-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                                        <span class="text-sm">All basic features</span>
+                                    </li>
+                                    <li class="flex items-center space-x-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                                        <span class="text-sm">Priority support</span>
+                                    </li>
+                                    <li class="flex items-center space-x-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                                        <span class="text-sm">Editable revisions</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-10">
+                        <button class="w-full bg-black text-white font-semibold py-3.5 rounded-lg hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black" onclick="showSection('payment')">
+                            Continue to Payment
+                        </button>
+                    </div>
+                </main>
+
+                <footer class="text-center mt-10">
+                    <h3 class="font-semibold text-lg text-gray-800">Welcome to ForeverTunes Premium</h3>
+                    <p class="text-sm text-gray-500 mt-1">Your personalized music experience starts now.</p>
+                </footer>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rest of the code remains unchanged -->
+    <section id="payment" class="page-section">
+        <div class="bg-gray-100 min-h-screen py-12">
+            <div class="container mx-auto px-6">
+                <header class="flex justify-between items-center mb-8">
+                    <div class="flex items-center space-x-2 cursor-pointer" onclick="showSection('home')">
+                        <img src="logo.png" alt="Logo" class="h-8 w-8 object-contain">
+                        <span class="text-xl font-bold">ForeverTunes</span>
+                    </div>
+                    <a href="#" class="text-gray-600 font-medium text-sm hover:text-gray-900 transition-colors duration-200" onclick="showSection('select-package')">
+                        &larr; Back
+                    </a>
+                </header>
+
+                <div id="customer-details-section" class="w-full max-w-md mx-auto">
+                    <div class="bg-white rounded-lg shadow-lg p-8 space-y-6">
+                        <div class="text-center">
+                            <h1 class="text-3xl font-bold text-gray-800">Customer Details</h1>
+                            <p class="text-gray-500 mt-2">Please fill out your information below.</p>
+                        </div>
+                        <form id="customerForm" class="space-y-4">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                                <input type="text" id="name" name="name" placeholder="Enter your full name" required 
+                                       class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
+                            </div>
+                            <div>
+                                <label for="mobile" class="block text-sm font-medium text-gray-700">Mobile No</label>
+                                <input type="tel" id="mobile" name="mobile" placeholder="Enter your 10-digit mobile number" required
+                                       class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700">Email ID</label>
+                                <input type="email" id="email" name="email" placeholder="you@example.com" required
+                                       class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
+                            </div>
+                            <div>
+                                <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-transform transform hover:scale-105">
+                                    Pay
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="pricing-section" class="hidden container mx-auto p-4">
+                    <div class="text-center mb-12">
+                        <h1 class="text-4xl font-bold text-gray-800">Our Pricing Plans</h1>
+                        <p class="text-gray-500 mt-2">Choose the plan that's right for you.</p>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row justify-center items-center gap-8">
+                        <div class="pricing-card w-full max-w-sm cursor-pointer bg-white border-2 border-transparent rounded-xl overflow-hidden transition-all duration-300 ease-in-out transform hover:-translate-y-2">
+                            <div class="p-6 bg-gray-900 text-white text-center">
+                                <h2 class="text-2xl font-bold">Basic</h2>
+                            </div>
+                            <div class="p-8 text-center bg-white">
+                                <p class="text-5xl font-extrabold text-gray-800">₹599</p>
+                            </div>
+                             <div class="p-6 bg-gray-50 text-center">
+                                <button class="w-full py-3 px-4 rounded-lg text-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Select Plan</button>
+                            </div>
+                        </div>
+
+                        <div class="pricing-card w-full max-w-sm cursor-pointer bg-white border-2 border-transparent rounded-xl overflow-hidden transition-all duration-300 ease-in-out transform hover:-translate-y-2">
+                            <div class="p-6 bg-gray-900 text-white text-center">
+                                <h2 class="text-2xl font-bold">Premium</h2>
+                            </div>
+                            <div class="p-8 text-center bg-white">
+                                <p class="text-5xl font-extrabold text-gray-800">₹999</p>
+                            </div>
+                             <div class="p-6 bg-gray-50 text-center">
+                                <button class="w-full py-3 px-4 rounded-lg text-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Select Plan</button>
+                            </div>
+                        </div>
+
+                        <div class="pricing-card w-full max-w-sm cursor-pointer bg-white border-2 border-transparent rounded-xl overflow-hidden transition-all duration-300 ease-in-out transform hover:-translate-y-2">
+                            <div class="p-6 bg-gray-900 text-white text-center">
+                                <h2 class="text-2xl font-bold">Exclusive</h2>
+                            </div>
+                            <div class="p-8 text-center bg-white">
+                                <p class="text-5xl font-extrabold text-gray-800">₹1499</p>
+                            </div>
+                             <div class="p-6 bg-gray-50 text-center">
+                                <button class="w-full py-3 px-4 rounded-lg text-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Select Plan</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="page-section">
+        <main class="container mx-auto px-6 py-16 md:py-24">
+            <section class="text-center mb-16">
+                <h1 class="text-4xl md:text-5xl font-bold text-black">Contact Us</h1>
+                <p class="text-lg md:text-xl text-gray-600 mt-4">Get in touch with our team</p>
+            </section>
+
+            <section class="max-w-6xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <div class="bg-white rounded-2xl p-8 border border-gray-200">
+                        <h2 class="text-2xl font-bold mb-6">Send us a message</h2>
+                        <form class="space-y-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                                <input type="text" id="name" name="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent" placeholder="Your name" required>
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                                <input type="email" id="email" name="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent" placeholder="your@email.com" required>
+                            </div>
+                            <div>
+                                <label for="subject" class="block text-sm font-medium text-gray-700 mb-2">Subject</label>
+                                <input type="text" id="subject" name="subject" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent" placeholder="What's this about?" required>
+                            </div>
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                                <textarea id="message" name="message" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent" placeholder="Tell us about your project or question..." required></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-black text-white font-semibold py-3 px-8 rounded-lg hover:bg-gray-800 transition-colors">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="space-y-8">
+                        <div class="bg-gray-50 rounded-2xl p-8">
+                            <h3 class="text-xl font-bold mb-6">Get in touch</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-4">
+                                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                                    <span class="text-gray-700">forevertunes.in@gmail.com</span>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                                    <span class="text-gray-700">+919637474698</span>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                    <span class="text-gray-700">katkat gate farzad colony, jaswantpura, chhatrapati sambhajinagar maharashtra 431001</span>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919C8.416 2.175 8.796 2.163 12 2.163zm0 1.441c-3.141 0-3.504.012-4.726.068-2.673.123-3.974 1.441-4.098 4.098-.056 1.222-.067 1.583-.067 4.726s.011 3.504.067 4.726c.124 2.657 1.425 3.974 4.098 4.098 1.222.056 1.584.068 4.726.068s3.504-.012 4.726-.068c2.673-.124 3.974-1.441 4.098-4.098.056-1.222.068-1.584.068-4.726s-.012-3.504-.068-4.726c-.124-2.657-1.425-3.974-4.098-4.098C15.504 3.615 15.141 3.604 12 3.604zm0 4.232c-2.404 0-4.35 1.946-4.35 4.35s1.946 4.35 4.35 4.35 4.35-1.946 4.35-4.35-1.946-4.35-4.35-4.35zm0 7.26c-1.605 0-2.91-1.305-2.91-2.91s1.305-2.91 2.91-2.91 2.91 1.305 2.91 2.91-1.305 2.91-2.91 2.91zm4.45-7.81c-.552 0-1 .448-1 1s.448 1 1 1 1-.448 1-1-.448-1-1-1z"/></svg>
+                                    <a href="https://www.instagram.com/forevertunes.in?igsh=MWRscHhkYmhncGNqeg==" target="_blank" rel="noopener noreferrer" class="text-gray-700 hover:text-black">forevertunes.in</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-2xl p-8">
+                            <h3 class="text-xl font-bold mb-6">Common Questions</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">How long does it take to create a custom song?</h4>
+                                    <p class="text-gray-600 text-sm mt-1">Typically 3-5 business days depending on the package selected.</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Can I request revisions?</h4>
+                                    <p class="text-gray-600 text-sm mt-1">Yes! Premium and Exclusive packages include revision options.</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">What file formats do you provide?</h4>
+                                    <p class="text-gray-600 text-sm mt-1">MP3 for Basic, WAV & stems for Premium and Exclusive packages.</p>
+                                </div>
+                            </div>
+                            <a href="#" class="inline-block mt-4 text-black font-semibold hover:underline">
+                                View all FAQs →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </section>
+
+    <section id="legal" class="page-section">
+        <main class="container mx-auto px-6 py-16 md:py-24">
+            <header class="flex justify-between items-center mb-12">
+                <div class="flex items-center space-x-2">
+                     <img src="logo.png" alt="Logo" class="h-8 w-8 object-contain">
+                    <span class="text-2xl font-bold text-black">Legal Information</span>
+                </div>
+                <a href="#" class="text-gray-600 font-medium text-sm hover:text-gray-900 transition-colors duration-200" onclick="showSection('home')">
+                    &larr; Back to Home
+                </a>
+            </header>
+    
+            <div class="max-w-4xl mx-auto space-y-12 text-gray-700 leading-relaxed">
+                <div>
+                    <h2 class="text-3xl font-bold text-black mb-4">Terms of Service</h2>
+                    <h3 class="text-xl font-semibold text-black mt-6 mb-2">Our Story & Service Commitment</h3>
+                    <p>We believe every moment deserves a melody. ForeverTunes was born from the idea that love, joy, and memories sound best when turned into song. Our journey started with a simple vision: make gifting more meaningful and deeply personal through music. By using our service, you agree to engage in a creative process with our artists to bring your stories to life through music.</p>
+                    <p class="mt-4">Today, ForeverTunes helps you turn moments and feelings into soundtracks for those you love. Our every song is inspired by your memories, emotions, and stories, crafted to last forever. We commit to delivering a professionally crafted song based on the details you provide in your order.</p>
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold text-black mb-4">Privacy Policy</h2>
+                    <h3 class="text-xl font-semibold text-black mt-6 mb-2">Our Vision & Promise on Your Data</h3>
+                    <p>Our vision is to make music the most heartfelt way to express emotions. Each ForeverTune is crafted with love, creativity, and professional artistry. This extends to how we handle your personal information. We are committed to protecting your privacy and ensuring that the personal stories and details you share with us are used solely for the purpose of creating your custom song.</p>
+                    <h3 class="text-xl font-semibold text-black mt-6 mb-2">Who We Are & How We Use Information</h3>
+                    <p>Our creators are musicians, storytellers, and dreamers dedicated to translating your feelings into music. Every ForeverTunes song is hand-made by people who care deeply about the craft and your story. The team, including Katie (Lead Songwriter), Sam (Composer), and Priya (Producer), will have access to the information you provide to fulfill your order. We do not sell or share your personal data with third parties for marketing purposes. All information is treated with confidentiality and respect.</p>
+                </div>
+            </div>
+        </main>
+    </section>
+
+    <footer class="bg-gray-50 border-t border-gray-200">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
+                <div class="col-span-2 md:col-span-1">
+                     <div class="flex items-center space-x-2">
+                         <img src="logo.png" alt="Logo" class="h-8 w-8 object-contain">
+                        <span class="text-xl font-bold">ForeverTunes</span>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-black">Platform</h4>
+                    <ul class="mt-4 space-y-2 text-gray-600">
+                        <li><a href="#" class="nav-link hover:text-black" data-section="home">Home</a></li>
+                        <li><a href="#" class="nav-link hover:text-black" data-section="how-it-works">How It Works</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-black">Learn</h4>
+                    <ul class="mt-4 space-y-2 text-gray-600">
+                        <li><a href="#" class="hover:text-black">About</a></li>
+                        <li><a href="#" class="hover:text-black">Demo</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-black">Support</h4>
+                    <ul class="mt-4 space-y-2 text-gray-600">
+                        <li><a href="#" class="nav-link hover:text-black" data-section="contact">Contact</a></li>
+                        <li><a href="#" class="hover:text-black">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-black">Legal</h4>
+                    <ul class="mt-4 space-y-2 text-gray-600">
+                        <li><a href="#" class="nav-link hover:text-black" data-section="legal">Terms</a></li>
+                        <li><a href="#" class="nav-link hover:text-black" data-section="legal">Privacy</a></li>
+                        <li><a href="https://www.instagram.com/forevertunes.in?igsh=MWRscHhkYmhncGNqeg==" target="_blank" rel="noopener noreferrer" class="hover:text-black">Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+             <div class="mt-12 pt-8 border-t border-gray-200 text-center text-gray-500 text-sm">
+                <p>&copy; 2025 ForeverTunes</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function showSection(sectionId) {
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if (link.getAttribute('data-section') === sectionId) {
+                    link.classList.add('text-black', 'font-semibold');
+                    link.classList.remove('text-gray-600');
+                } else {
+                    link.classList.remove('text-black', 'font-semibold');
+                    link.classList.add('text-gray-600');
+                }
+            });
+            window.scrollTo(0, 0);
+        }
+        
+        function scrollToPricing() {
+            showSection('home');
+            setTimeout(() => {
+                document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        }
+        
+        function selectPackage(selectedButton, packageName) {
+            const allPackageCards = document.querySelectorAll('.package-card');
+            allPackageCards.forEach(card => {
+                card.classList.remove('border-2', 'border-black', 'shadow-lg');
+                card.classList.add('border', 'border-gray-200');
+                const button = card.querySelector('button');
+                button.classList.remove('bg-black', 'text-white', 'hover:bg-gray-800');
+                button.classList.add('bg-gray-200', 'text-gray-800', 'hover:bg-gray-300');
+            });
+            const selectedCard = selectedButton.closest('.package-card');
+            selectedCard.classList.add('border-2', 'border-black', 'shadow-lg');
+            selectedCard.classList.remove('border', 'border-gray-200');
+            selectedButton.classList.add('bg-black', 'text-white', 'hover:bg-gray-800');
+            selectedButton.classList.remove('bg-gray-200', 'text-gray-800', 'hover:bg-gray-300');
+        }
+        
+        const langButtons = document.querySelectorAll('.lang-btn');
+        const activeClasses = ['bg-black', 'text-white', 'border-black', 'font-semibold'];
+        const inactiveClasses = ['border-gray-300', 'bg-gray-50', 'hover:bg-gray-100', 'font-medium', 'text-gray-700'];
+        
+        function setActiveButton(selectedButton) {
+            langButtons.forEach(button => {
+                button.classList.remove(...activeClasses);
+                button.classList.add(...inactiveClasses);
+            });
+            selectedButton.classList.remove(...inactiveClasses);
+            selectedButton.classList.add(...activeClasses);
+        }
+        
+        langButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                setActiveButton(button);
+            });
+        });
+        
+        if (langButtons.length > 0) {
+            setActiveButton(langButtons[0]);
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.getAttribute('data-section');
+                    showSection(sectionId);
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            const premiumButton = document.querySelector('button[onclick*="\'Premium\'"]');
+            if (premiumButton) {
+                selectPackage(premiumButton, 'Premium');
+            }
+            
+            const customerForm = document.getElementById('customerForm');
+            const customerDetailsSection = document.getElementById('customer-details-section');
+            const pricingSection = document.getElementById('pricing-section');
+
+            if (customerForm) {
+                customerForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    customerDetailsSection.classList.add('hidden');
+                    pricingSection.classList.remove('hidden');
+                });
+            }
+
+            const pricingCards = document.querySelectorAll('.pricing-card');
+            pricingCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    pricingCards.forEach(c => c.classList.remove('selected-card'));
+                    card.classList.add('selected-card');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
